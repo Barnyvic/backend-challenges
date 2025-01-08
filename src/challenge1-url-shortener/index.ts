@@ -9,11 +9,29 @@ const router = Router();
 const shortToLongMap: Record<string, string> = {};
 const longToShortMap: Record<string, string> = {};
 
+const isValidUrl = (url: string): boolean => {
+  try {
+    const parsedUrl = new URL(url);
+    return parsedUrl.protocol === "http:" || parsedUrl.protocol === "https:";
+  } catch {
+    return false;
+  }
+};
+
+
+
 router.post("/shorten", (req: Request, res: any) => {
   const { longUrl } = req.body;
   if (!longUrl || typeof longUrl !== "string") {
     return res.status(400).json({ error: "Invalid or missing longUrl" });
   }
+
+   if (!isValidUrl(longUrl)) {
+     return res.status(400).json({
+       error: "Invalid URL format. URL must start with http:// or https://",
+     });
+   }
+
   if (longToShortMap[longUrl]) {
     return res.json({
       message: "URL already shortened!",
