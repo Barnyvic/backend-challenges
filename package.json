@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start-ch1": "ts-node src/challenge1-url-shortener/index.ts",
+    "start-ch2": "ts-node src/challenge2-event-loop/index.ts"
   },
   "keywords": [],
   "author": "",
