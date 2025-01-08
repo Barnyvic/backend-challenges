@@ -7,7 +7,7 @@ const app = express();
 app.use(express.json());
 
 // Create root category
-app.post("/categories", async (req: Request, res: any) => {
+app.post("/categories", async (req: Request, res: Response) => {
   try {
     const { name } = req.body;
     if (!name) return res.status(400).json({ error: "Missing category name" });
@@ -19,7 +19,7 @@ app.post("/categories", async (req: Request, res: any) => {
 });
 
 // Create subcategory
-app.post("/categories/:parentName/sub", async (req: Request, res: any) => {
+app.post("/categories/:parentName/sub", async (req: Request, res: Response) => {
   try {
     const { parentName } = req.params;
     const { name } = req.body;
@@ -42,7 +42,7 @@ app.post("/categories/:parentName/sub", async (req: Request, res: any) => {
 });
 
 // Get subcategories
-app.get("/categories/:parentName/sub", async (req: Request, res: any) => {
+app.get("/categories/:parentName/sub", async (req: Request, res: Response) => {
   try {
     const { parentName } = req.params;
     const parentCategory = await Category.findOne({ name: parentName });
@@ -77,6 +77,4 @@ async function startServer() {
   }
 }
 
-
 startServer();
-

@@ -23,26 +23,26 @@ const isValidUrl = (url: string): boolean => {
 router.post("/shorten", (req: Request, res: Response) => {
   const { longUrl } = req.body;
   if (!longUrl || typeof longUrl !== "string") {
-   res.status(400).json({ error: "Invalid or missing longUrl" });
+   return res.status(400).json({ error: "Invalid or missing longUrl" });
   }
 
   if (!isValidUrl(longUrl)) {
-    res.status(400).json({
-      error: "Invalid URL format. URL must start with http:// or https://",
-    });
+   return res.status(400).json({
+     error: "Invalid URL format. URL must start with http:// or https://",
+   });
   }
 
   if (longToShortMap[longUrl]) {
-   res.json({
-      message: "URL already shortened!",
-      shortId: longToShortMap[longUrl],
-      longUrl,
-    });
+  return res.json({
+    message: "URL already shortened!",
+    shortId: longToShortMap[longUrl],
+    longUrl,
+  });
   }
   const shortId = randomBytes(4).toString("hex");
   shortToLongMap[shortId] = longUrl;
   longToShortMap[longUrl] = shortId;
-  res.json({ shortId, longUrl });
+  return res.json({ shortId, longUrl });
 });
 
 
@@ -50,9 +50,9 @@ router.get("/:shortId", (req: Request, res: Response) => {
   const { shortId } = req.params;
   const longUrl = shortToLongMap[shortId];
   if (!longUrl) {
-   res.status(404).json({ error: "Short ID not found" });
+   return res.status(404).json({ error: "Short ID not found" });
   }
-  res.redirect(longUrl);
+  return res.redirect(longUrl);
 });
 
 app.use("/", router);
