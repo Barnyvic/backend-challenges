@@ -66,8 +66,7 @@ app.get("/categories/:parentName/sub", async (req: Request, res: any) => {
 async function startServer() {
   try {
     await connectDB(
-      process.env.MONGODB_URI ||
-        "mongodb+srv://victorbarny4:s62BaGKhbPqzULi1@social.doijvjt.mongodb.net/WizardLibrary"
+      process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/wizard-library"
     );
     app.listen(3001, () =>
       console.log("🧙‍♂️ Wizard Library server is running on port 3001")
